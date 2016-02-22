@@ -1,0 +1,57 @@
+<script>
+with (document) {
+	writeln('<title>Random password generator </title></head><body bgcolor=black text=white leftmargin=100>' +
+	'<h2>Password generator</h2><h3>Use:</h3><form name=myform>' +
+	'<input name=upper type=checkbox value=0> <b>Uppercase</b><br>' +
+	'<input name=lower type=checkbox value=1> <b>Lowercase</b><br>' +
+	'<input name=digit type=checkbox value=2> <b>Digits</b><br>' +
+	'<input name=char type=checkbox value=3> <b>Chars</b><br><br>Length (4-20): ' +
+	'<select name=numbers><option value=4 selected>4</option>');
+	for (j = 5; j <= 20; j++) { writeln('<option value=' + j + '>' + j + '</option>'); }
+	writeln('</select><br><br>' +
+	'<input type=button value=Generate ... onClick=generate()>   Your password: ' +
+	'<input name=getback size=30 type=text value=""></form>');
+}
+
+upp = new Array('','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+low = new Array('','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z');
+dig = new Array('','0','1','2','3','4','5','6','7','8','9');
+sym = new Array ('-','_',';',':','(',')','%','&','$','§');
+
+function rnd(x,y,z) { 
+	var num;
+	do {
+		num = parseInt(Math.random()*z);
+		if (num >= x && num <= y) break;
+	} while (true);
+return(num);
+}
+
+function genArray() {																
+	var pwd = '';
+	var res, s;
+	var k = 0;
+	var n = document.myform.numbers.value;
+	var pass = new Array();
+	var w = rnd(30,80,100);
+	for (var r = 0; r < w; r++) {
+		if (myform.upper.checked) { res = rnd(1,26,100); pass[k] = upp[res]; k++; }
+		if (myform.lower.checked) { res = rnd(1,26,100); pass[k] = low[res]; k++; }
+		if (myform.digit.checked) { res = rnd(1,10,100); pass[k] = dig[res]; k++; }
+		if (myform.char.checked) { res = rnd(1,10,100); pass[k] = sym[res]; k++; }
+	}
+	for (var i = 0; i < n; i++) {
+		s = rnd(1,k-1,100);
+		pwd+= pass[s];
+	}
+	document.myform.getback.value = pwd;
+}
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------
+function generate() {
+	if (myform.upper.checked || myform.lower.checked || myform.digit.checked || myform.char.checked)  { genArray(); }
+	else { alert('Choose something!'); myform.upper.checked = true; }
+}
+</script>
+
+
+
